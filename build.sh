@@ -1,0 +1,1 @@
+docker buildx build -t fifilyu/centos6:latest .
