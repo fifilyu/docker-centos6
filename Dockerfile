@@ -96,12 +96,12 @@ RUN test -L pip312 || ln -v -s pip3 pip312
 RUN test -L python312 || ln -v -s python3 python312
 
 RUN ./pip312 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-RUN ./pip312 install pip
+RUN ./pip312 install --root-user-action=ignore -U pip
 
 ####################
 # 安装常用编辑工具
 ####################
-RUN ./pip312 install -U yq toml-cli
+RUN ./pip312 install --root-user-action=ignore -U yq toml-cli
 
 COPY file/usr/local/bin/jq /usr/local/bin/jq
 RUN chmod 755 /usr/local/bin/jq

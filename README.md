@@ -98,23 +98,20 @@ fifilyu/centos6:latest
 ### 文件列表
 
 * /etc/ssh/sshd_config
-* /etc/ssh/ssh_host_rsa_key
-* /etc/ssh/ssh_host_ecdsa_key
-* /etc/ssh/ssh_host_ed25519_key
 * /etc/security/limits.conf
 * /etc/yum.conf
 * /etc/selinux/config
 * /etc/profile.d/python3.sh
 * /usr/local/bin/jq
 * /usr/local/python3
-* /usr/local/python-3.10.5
+* /usr/local/python-3.12.2
 * /root/.ssh/authorized_keys
 
 ### 软件包
 
 #### Python
 
-* python310
+* python312
 
 #### 命令行编辑工具
 
