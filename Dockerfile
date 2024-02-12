@@ -16,26 +16,26 @@ RUN sed -i 's/enabled=1/enabled=0/' /etc/yum/pluginconf.d/fastestmirror.conf
 COPY file/etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
 
 COPY pkg/rpm/epel-release-6-8.noarch.rpm /tmp/
-RUN rpm -ivh /tmp/epel-release-6-8.noarch.rpm
+RUN ulimit -n 1024 && rpm -ivh /tmp/epel-release-6-8.noarch.rpm
 
 COPY file/etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel.repo
-RUN yum makecache
+RUN ulimit -n 1024 && yum makecache
 
 ####################
 # 更新系统软件包
 ####################
-RUN yum update -y
+RUN ulimit -n 1024 && yum update -y
 
 ####################
 # 中文环境支持
 ####################
-RUN yum install -y wqy-microhei-fonts wqy-zenhei-fonts wqy-unibit-fonts
+RUN ulimit -n 1024 && yum install -y wqy-microhei-fonts wqy-zenhei-fonts wqy-unibit-fonts
 
 
 ####################
 # 安装常用软件包
 ####################
-RUN yum install -y iproute rsync yum-utils tree pwgen vim-enhanced wget curl screen bzip2 tcpdump unzip tar xz bash-completion telnet chrony sudo strace openssh-server openssh-clients mlocate
+RUN ulimit -n 1024 && yum install -y iproute rsync yum-utils tree pwgen vim-enhanced wget curl screen bzip2 tcpdump unzip tar xz bash-completion telnet chrony sudo strace openssh-server openssh-clients mlocate
 
 RUN grep 'set fencs=utf-8,gbk' /etc/vimrc || echo 'set fencs=utf-8,gbk' >>/etc/vimrc
 
@@ -63,7 +63,7 @@ COPY file/etc/ssh/sshd_config /etc/ssh/sshd_config
 ####################
 # 安装Python3.12
 ####################
-RUN yum install -y tcl tk xz zlib gcc
+RUN ulimit -n 1024 && yum install -y tcl tk xz zlib gcc
 
 ###########################
 ## 安装依赖：OpenSSL-1.1.1n
@@ -106,7 +106,7 @@ RUN ./pip312 install --root-user-action=ignore -U yq toml-cli
 COPY file/usr/local/bin/jq /usr/local/bin/jq
 RUN chmod 755 /usr/local/bin/jq
 
-RUN yum install -y xmlstarlet crudini
+RUN ulimit -n 1024 && yum install -y xmlstarlet crudini
 
 ####################
 # BASH设置
@@ -117,7 +117,7 @@ RUN echo "alias ll='ls -l --color=auto --group-directories-first'" >> /root/.bas
 # 清理
 ####################
 RUN rm -f /root/anaconda-ks.cfg /root/install.log  /root/install.log.syslog
-RUN yum clean all
+RUN ulimit -n 1024 && yum clean all
 
 ####################
 # 设置开机启动
