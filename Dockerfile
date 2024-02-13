@@ -59,6 +59,7 @@ RUN mkdir -p /root/.ssh
 RUN touch /root/.ssh/authorized_keys
 RUN chmod 600 /root/.ssh/authorized_keys
 COPY file/etc/ssh/sshd_config /etc/ssh/sshd_config
+RUN sed -i 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/g' /etc/ssh/ssh_config
 
 ####################
 # 安装Python3.12
