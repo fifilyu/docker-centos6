@@ -47,12 +47,12 @@ ssh root@容器IP -v
 
 ```bash
 docker run -d \
---env LANG=en_US.UTF-8 \
---env TZ=Asia/Shanghai \
--v /etc/localtime:/etc/localtime:ro \
---env PUBLIC_STR="$(<~/.ssh/fifilyu@archlinux.pub)" \
---name centos6_key \
-fifilyu/centos6:latest
+    --env LANG=en_US.UTF-8 \
+    --env TZ=Asia/Shanghai \
+    -v /etc/localtime:/etc/localtime:ro \
+    --env PUBLIC_STR="$(<~/.ssh/fifilyu@archlinux.pub)" \
+    --name centos6_key \
+    fifilyu/centos6:latest
 ```
 
 效果同上。另外，可以通过 SSH 无密码登录容器。
@@ -67,12 +67,12 @@ fifilyu/centos6:latest
 
 ```bash
 docker run -d \
---env LANG=en_US.UTF-8 \
---env TZ=Asia/Shanghai \
--v /etc/localtime:/etc/localtime:ro \
--p 1022:22 \
---name centos6_port \
-fifilyu/centos6:latest
+    --env LANG=en_US.UTF-8 \
+    --env TZ=Asia/Shanghai \
+    -v /etc/localtime:/etc/localtime:ro \
+    -p 1022:22 \
+    --name centos6_port \
+    fifilyu/centos6:latest
 ```
 
 执行 `ssh root@127.0.0.1 -p 1022 -v` 测试 SSH 端口状态
