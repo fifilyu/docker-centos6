@@ -8,4 +8,4 @@ if [ $? -eq 0 ]; then
 fi
 
 echo "[信息] 构建Docker镜像：fifilyu/centos6:${tag}"
-docker buildx build -t fifilyu/centos6:${tag} .
+docker buildx build -t fifilyu/centos6:${tag} -t fifilyu/centos6:latest .
