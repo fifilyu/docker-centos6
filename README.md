@@ -14,10 +14,13 @@ docker buildx build -t fifilyu/centos6:latest .
 
 ### 启动一个容器很简单
 
+*CentOS6容器通过SSH连接后，设置的TZ环境变量不存在，导致时区问题，使用/etc/localtime代替*
+
 ```bash
 docker run -d \
     --env LANG=en_US.UTF-8 \
     --env TZ=Asia/Shanghai \
+    -v /etc/localtime:/etc/localtime:ro \
     --name centos6 \
     fifilyu/centos6:latest
 ```
@@ -44,8 +47,9 @@ ssh root@容器IP -v
 ```bash
 docker run -d \
 --env LANG=en_US.UTF-8 \
-    --env TZ=Asia/Shanghai \
--e PUBLIC_STR="$(<~/.ssh/fifilyu@archlinux.pub)" \
+--env TZ=Asia/Shanghai \
+-v /etc/localtime:/etc/localtime:ro \
+--env PUBLIC_STR="$(<~/.ssh/fifilyu@archlinux.pub)" \
 --name centos6_key \
 fifilyu/centos6:latest
 ```
@@ -63,7 +67,8 @@ fifilyu/centos6:latest
 ```bash
 docker run -d \
 --env LANG=en_US.UTF-8 \
-    --env TZ=Asia/Shanghai \
+--env TZ=Asia/Shanghai \
+-v /etc/localtime:/etc/localtime:ro \
 -p 1022:22 \
 --name centos6_port \
 fifilyu/centos6:latest
