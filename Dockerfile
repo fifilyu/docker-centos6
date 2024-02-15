@@ -10,7 +10,7 @@ ENV LANG en_US.UTF-8
 ####################
 # 设置YUM
 ####################
-RUN grep '*.i386 *.i586 *.i686' /etc/yum.conf || echo "exclude=*.i386 *.i586 *.i686" >> /etc/yum.conf
+RUN grep '*.i386 *.i586 *.i686' /etc/yum.conf || echo "exclude=*.i386 *.i586 *.i686" >>/etc/yum.conf
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 RUN sed -i 's/enabled=1/enabled=0/' /etc/yum/pluginconf.d/fastestmirror.conf
 COPY file/etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
@@ -31,26 +31,26 @@ RUN ulimit -n 1024 && yum update -y
 ####################
 RUN ulimit -n 1024 && yum install -y wqy-microhei-fonts wqy-zenhei-fonts wqy-unibit-fonts
 
-
 ####################
 # 安装常用软件包
 ####################
 RUN ulimit -n 1024 && yum install -y iproute rsync yum-utils tree pwgen vim-enhanced wget curl screen bzip2 tcpdump unzip tar xz bash-completion telnet chrony sudo strace openssh-server openssh-clients mlocate
+# 常用编译环境组件
+RUN ulimit -n 1024 && yum install -y gcc make openssl-devel
 
 RUN grep 'set fencs=utf-8,gbk' /etc/vimrc || echo 'set fencs=utf-8,gbk' >>/etc/vimrc
 
 ####################
 # 设置文件句柄
 ####################
-RUN grep '*               soft   nofile            65535' /etc/security/limits.conf || echo "*               soft   nofile            65535" >> /etc/security/limits.conf
-RUN grep '*               hard   nofile            65535' /etc/security/limits.conf || echo "*               hard   nofile            65535" >> /etc/security/limits.conf
+RUN grep '*               soft   nofile            65535' /etc/security/limits.conf || echo "*               soft   nofile            65535" >>/etc/security/limits.conf
+RUN grep '*               hard   nofile            65535' /etc/security/limits.conf || echo "*               hard   nofile            65535" >>/etc/security/limits.conf
 
 ####################
 # 关闭SELINUX
 ####################
-RUN echo SELINUX=disabled>/etc/selinux/config
-RUN echo SELINUXTYPE=targeted>>/etc/selinux/config
-
+RUN echo SELINUX=disabled >/etc/selinux/config
+RUN echo SELINUXTYPE=targeted >>/etc/selinux/config
 
 ####################
 # 配置SSH
@@ -70,15 +70,15 @@ RUN ulimit -n 1024 && yum install -y tcl tk xz zlib gcc
 ## 安装依赖：OpenSSL-1.1.1n
 ###########################
 COPY file/usr/local/openssl-1.1.1n /usr/local/openssl-1.1.1n
-RUN echo '/usr/local/openssl-1.1.1n/lib' > /etc/ld.so.conf.d/openssl-1.1.1n.conf
+RUN echo '/usr/local/openssl-1.1.1n/lib' >/etc/ld.so.conf.d/openssl-1.1.1n.conf
 RUN ldconfig
-RUN ldconfig -p | grep openssl-1.1.1n 
+RUN ldconfig -p | grep openssl-1.1.1n
 
 ###########################
 ## 安装依赖：SQLite-3.33
 ###########################
 COPY file/usr/local/sqlite-3.33 /usr/local/sqlite-3.33
-RUN echo '/usr/local/sqlite-3.33/lib' > /etc/ld.so.conf.d/sqlite-3.33.conf
+RUN echo '/usr/local/sqlite-3.33/lib' >/etc/ld.so.conf.d/sqlite-3.33.conf
 RUN ldconfig
 RUN ldconfig -p | grep sqlite-3.33
 
@@ -90,7 +90,7 @@ WORKDIR /usr/local
 RUN test -L python3 || ln -s python-3.12.2 python3
 
 ARG py_bin_dir=/usr/local/python3/bin
-RUN echo "export PATH=${py_bin_dir}:\${PATH}" > /etc/profile.d/python3.sh
+RUN echo "export PATH=${py_bin_dir}:\${PATH}" >/etc/profile.d/python3.sh
 
 WORKDIR ${py_bin_dir}
 RUN test -L pip312 || ln -v -s pip3 pip312
@@ -112,12 +112,12 @@ RUN ulimit -n 1024 && yum install -y xmlstarlet crudini
 ####################
 # BASH设置
 ####################
-RUN echo "alias ll='ls -l --color=auto --group-directories-first'" >> /root/.bashrc
+RUN echo "alias ll='ls -l --color=auto --group-directories-first'" >>/root/.bashrc
 
 ####################
 # 清理
 ####################
-RUN rm -f /root/anaconda-ks.cfg /root/install.log  /root/install.log.syslog
+RUN rm -f /root/anaconda-ks.cfg /root/install.log /root/install.log.syslog
 RUN ulimit -n 1024 && yum clean all
 
 ####################
