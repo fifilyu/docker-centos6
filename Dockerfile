@@ -115,6 +115,11 @@ RUN ulimit -n 1024 && yum install -y xmlstarlet crudini
 RUN echo "alias ll='ls -l --color=auto --group-directories-first'" >>/root/.bashrc
 
 ####################
+# Locale设置
+####################
+RUN echo 'LANG="en_US.UTF-8"' >/etc/locale.conf
+
+####################
 # 清理
 ####################
 RUN rm -f /root/anaconda-ks.cfg /root/install.log /root/install.log.syslog
